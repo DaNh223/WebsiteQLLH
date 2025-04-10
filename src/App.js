@@ -1,24 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Schedule from "./pages/Schedule";
+import QuanLyGioGiang from "./pages/StandardHours";
+import ProgramManagement from './pages/ProgramManagement';
+import Sidebar from './components/Sidebar';
+import CourseManagement from './pages/CourseManagement';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <Sidebar>
+        <Routes>
+          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/time" element={<QuanLyGioGiang />} />
+          <Route path="/" element={<ProgramManagement />} />
+          <Route path="/course" element={<CourseManagement />} />
+        </Routes>
+      </Sidebar>
+
+    </Router>
   );
 }
 
