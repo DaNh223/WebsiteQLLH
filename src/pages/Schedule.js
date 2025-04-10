@@ -581,41 +581,41 @@ const Schedule = () => {
         if (!selectedWeekData) return;
 
 
-        // console.log("selectedWeekData", selectedWeekData)
-        // const payload = {
-        //     weekNumber: selectedWeek,
-        //     // startDate: selectedWeekData.startDate,
-        //     // endDate: selectedWeekData.endDate,
-        //     startDate: dayjs(selectedWeekData.startDate).format("YYYY-MM-DD"), // Convert to dayjs and format
-        //     endDate: dayjs(selectedWeekData.endDate).format("YYYY-MM-DD"), // Convert to dayjs and format
-        //     days: selectedWeekData.days.map(d => d.date.format("YYYY-MM-DD")),
-        //     schedules: schedule,
-        // };
-
-        // Parse startDate và endDate từ định dạng dd/mm/yyyy và chuyển thành YYYY-MM-DD
-        const startDate = dayjs(selectedWeekData.startDate, "DD/MM/YYYY").format("YYYY-MM-DD");
-        const endDate = dayjs(selectedWeekData.endDate, "DD/MM/YYYY").format("YYYY-MM-DD");
-
-        // Log ra để kiểm tra giá trị của startDate và endDate
-        console.log("Parsed Start Date:", startDate);
-        console.log("Parsed End Date:", endDate);
-
-        // Kiểm tra nếu startDate hoặc endDate không hợp lệ
-        if (!dayjs(startDate).isValid() || !dayjs(endDate).isValid()) {
-            toast.error("Định dạng ngày không hợp lệ");
-            return;
-        }
-
-        // Định dạng ngày trong mảng days thành YYYY-MM-DD
-        const formattedDays = selectedWeekData.days.map(d => dayjs(d.date).format("YYYY-MM-DD"));
-
+        console.log("selectedWeekData", selectedWeekData)
         const payload = {
             weekNumber: selectedWeek,
-            startDate: startDate, // Start date đã được chuyển sang định dạng YYYY-MM-DD
-            endDate: endDate, // End date đã được chuyển sang định dạng YYYY-MM-DD
-            days: formattedDays, // Ngày trong tuần cũng được định dạng thành YYYY-MM-DD
+            startDate: selectedWeekData.startDate,
+            endDate: selectedWeekData.endDate,
+            // startDate: dayjs(selectedWeekData.startDate).format("YYYY-MM-DD"), // Convert to dayjs and format
+            // endDate: dayjs(selectedWeekData.endDate).format("YYYY-MM-DD"), // Convert to dayjs and format
+            days: selectedWeekData.days.map(d => d.date.format("YYYY-MM-DD")),
             schedules: schedule,
         };
+
+        // // Parse startDate và endDate từ định dạng dd/mm/yyyy và chuyển thành YYYY-MM-DD
+        // const startDate = dayjs(selectedWeekData.startDate, "DD/MM/YYYY").format("YYYY-MM-DD");
+        // const endDate = dayjs(selectedWeekData.endDate, "DD/MM/YYYY").format("YYYY-MM-DD");
+
+        // // Log ra để kiểm tra giá trị của startDate và endDate
+        // console.log("Parsed Start Date:", startDate);
+        // console.log("Parsed End Date:", endDate);
+
+        // // Kiểm tra nếu startDate hoặc endDate không hợp lệ
+        // if (!dayjs(startDate).isValid() || !dayjs(endDate).isValid()) {
+        //     toast.error("Định dạng ngày không hợp lệ");
+        //     return;
+        // }
+
+        // // Định dạng ngày trong mảng days thành YYYY-MM-DD
+        // const formattedDays = selectedWeekData.days.map(d => dayjs(d.date).format("YYYY-MM-DD"));
+
+        // const payload = {
+        //     weekNumber: selectedWeek,
+        //     startDate: startDate, // Start date đã được chuyển sang định dạng YYYY-MM-DD
+        //     endDate: endDate, // End date đã được chuyển sang định dạng YYYY-MM-DD
+        //     days: formattedDays, // Ngày trong tuần cũng được định dạng thành YYYY-MM-DD
+        //     schedules: schedule,
+        // };
         try {
             await exportSchedule(payload);
             // alert(response.message);
@@ -1290,8 +1290,10 @@ const Schedule = () => {
                 <DialogContent>
                     <Typography>
                         In lịch
-                        từ ngày <b> {weeks.find(w => w.label === selectedWeek)?.startDate} </b>
-                        đến ngày <b> {weeks.find(w => w.label === selectedWeek)?.endDate} </b>?
+                        {/* từ ngày <b> {weeks.find(w => w.label === selectedWeek)?.startDate} </b>
+                        đến ngày <b> {weeks.find(w => w.label === selectedWeek)?.endDate} </b>? */}
+                        từ ngày<b> {dayjs(weeks.find(w => w.label === selectedWeek)?.startDate).format('DD/MM/YYYY')} </b>
+                        đến ngày<b> {dayjs(weeks.find(w => w.label === selectedWeek)?.endDate).format('DD/MM/YYYY')} </b>
                     </Typography>
                 </DialogContent>
                 <DialogActions>
