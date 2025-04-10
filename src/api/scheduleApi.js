@@ -132,7 +132,17 @@ export const exportSchedule = async (payload) => {
             a.click();
             document.body.removeChild(a);
         } else {
-            console.error("Lỗi khi tải file.");
+            // console.error("Lỗi khi tải file.");
+            // console.error(response.error);
+
+            const contentType = response.headers.get("Content-Type");
+            if (contentType && contentType.includes("application/json")) {
+                const errorData = await response.json();
+                console.error("Lỗi từ server:", errorData);
+            } else {
+                const errorText = await response.text();
+                console.error("Lỗi từ server (text):", errorText);
+            }
         }
     } catch (error) {
         console.error("Lỗi:", error);
