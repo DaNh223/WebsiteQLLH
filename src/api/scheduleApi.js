@@ -116,7 +116,7 @@ export const exportSchedule = async (payload) => {
     try {
         console.log("Payload gửi lên API:", JSON.stringify(payload, null, 2));
 
-        const response = await fetch("https://localhost:7096/api/Schedule/export", {
+        const response = await fetch(`${API_BASE_URL}/api/Schedule/export`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),

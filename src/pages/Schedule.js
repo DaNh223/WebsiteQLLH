@@ -177,6 +177,8 @@ const Schedule = () => {
             return acc;
         }, {});
 
+        console.log("formattedData", formattedData)
+
         setSchedule(formattedData);
     };
 
@@ -465,19 +467,32 @@ const Schedule = () => {
             return;
         }
 
-        // console.log("editLesson", editLesson)
-        const { maBai, maGv } = editLesson;
+        console.log("editLesson", editLesson)
+        // const { maBai, maGv } = editLesson;
+
+        // const updatedSchedule = {
+        //     ngayHoc: editSelectedDay,
+        //     buoiHoc: editSelectedSession,
+        //     maBai: maBai,
+        //     maGv: maGv,
+        //     maLop: selectedClass, // Đảm bảo gửi MaLop
+        //     soTiet: editActivityHours ? editActivityHours : null,
+        //     hoatDong: editSelectedActivity ? editSelectedActivity : null,
+        // };
+
+        const { maBai, maGv: maGvFromLesson } = editLesson || {};
 
         const updatedSchedule = {
             ngayHoc: editSelectedDay,
             buoiHoc: editSelectedSession,
-            maBai: maBai,
-            maGv: maGv,
-            maLop: selectedClass, // Đảm bảo gửi MaLop
+            maBai: maBai || null,
+            maGv: editSelectedActivity ? editSelectedTeacher : maGvFromLesson,
+            maLop: selectedClass,
             soTiet: editActivityHours ? editActivityHours : null,
             hoatDong: editSelectedActivity ? editSelectedActivity : null,
         };
 
+        console.log("updatedSchedule", updatedSchedule)
         try {
             const response = await updateSchedule(editScheduleId, updatedSchedule);
             // alert(response.message);
