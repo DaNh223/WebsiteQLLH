@@ -1,9 +1,15 @@
 import { useState } from "react";
-import { Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, AppBar, Toolbar, IconButton, CssBaseline, Tooltip } from "@mui/material";
-import { Menu as MenuIcon, CalendarMonth as ScheduleIcon, ChevronLeft as ChevronLeftIcon, AccessTime as AccessTimeIcon, Topic, Ballot } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import {
+    Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
+    AppBar, Toolbar, IconButton, CssBaseline, Tooltip, Button
+} from "@mui/material";
+import {
+    Menu as MenuIcon, CalendarMonth as ScheduleIcon, ChevronLeft as ChevronLeftIcon,
+    AccessTime as AccessTimeIcon, Topic, Ballot, ExitToApp
+} from "@mui/icons-material";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
-import { useLocation } from "react-router-dom";
+
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(({ theme, open }) => ({
@@ -12,7 +18,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
-    // marginLeft: open ? `${drawerWidth}px` : "60px",
     marginLeft: open ? `${drawerWidth}px` : "-110px",
     padding: theme.spacing(3),
 }));
@@ -28,17 +33,16 @@ const DrawerStyled = styled(Drawer, { shouldForwardProp: (prop) => prop !== "ope
             duration: theme.transitions.duration.enteringScreen,
         }),
         overflowX: "hidden",
-        backgroundColor: "#fff", // **Đổi nền thành trắng**
-        color: "#1976D2", // **Chữ màu xanh**
+        backgroundColor: "#fff",
+        color: "#1976D2",
     },
 }));
 
-export default function Sidebar({ children }) {
+export default function SidebarLayout() {
     const [open, setOpen] = useState(true);
     const location = useLocation();
-    const toggleDrawer = () => {
-        setOpen(!open);
-    };
+    const navigate = useNavigate(); // Hook dùng để chuyển hướng
+    const toggleDrawer = () => setOpen(!open);
 
     const menuItems = [
         { text: "Quản lý CTDT", icon: <Topic />, path: "/" },
@@ -46,6 +50,14 @@ export default function Sidebar({ children }) {
         { text: "Quản lý lịch dạy", icon: <ScheduleIcon />, path: "/schedule" },
         { text: "Quản lý giờ chuẩn", icon: <AccessTimeIcon />, path: "/time" },
     ];
+
+
+    const handleLogout = () => {
+        // Xoá thông tin người dùng khỏi localStorage (hoặc sessionStorage)
+        localStorage.removeItem('user');
+        // Chuyển hướng về trang login
+        navigate("/login");
+    };
 
     return (
         <>
@@ -73,15 +85,13 @@ export default function Sidebar({ children }) {
                                         sx={{
                                             justifyContent: open ? "initial" : "center",
                                             px: 2.5,
-                                            // color: "#1976D2", // **Màu xanh chủ đạo**
-                                            // borderRadius: "10px",
                                             color: isActive ? "#fff" : "#1976D2",
                                             backgroundColor: isActive ? "#1976D2" : "transparent",
-                                            pointerEvents: isActive ? "none" : "auto", // 👈 không cho click
+                                            pointerEvents: isActive ? "none" : "auto",
                                             transition: "0.3s",
                                             "&:hover": {
-                                                backgroundColor: "#1976D2", // **Hover đổi nền thành xanh**
-                                                color: "#fff", // **Chữ trắng khi hover**
+                                                backgroundColor: "#1976D2",
+                                                color: "#fff",
                                             }
                                         }}
                                     >
@@ -102,13 +112,44 @@ export default function Sidebar({ children }) {
                         )
                     })}
                 </List>
+
+                {/* Nút Đăng xuất - Thay đổi icon khi thu nhỏ */}
+                <div style={{ position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)' }}>
+                    {open ? (
+                        <Button
+                            variant="contained"
+                            color="error"
+                            onClick={handleLogout}
+                            sx={{
+                                width: '200px',
+                            }}
+                        >
+                            Đăng xuất
+                        </Button>
+                    ) : (
+                        <Tooltip title="Đăng xuất" placement="right">
+                            <IconButton
+                                color="error"
+                                onClick={handleLogout}
+                                sx={{
+                                    transition: "background-color 0.3s, color 0.3s",
+                                    "&:hover": {
+                                        backgroundColor: "red", // Chuyển nền đỏ khi hover
+                                        color: "white", // Chuyển màu icon thành trắng khi hover
+                                    }
+                                }}
+                            >
+                                <ExitToApp />
+                            </IconButton>
+                        </Tooltip>
+                    )}
+                </div>
             </DrawerStyled>
 
             <Main open={open}>
                 <Toolbar />
-                {children}
+                <Outlet />
             </Main>
         </>
     );
 }
-
