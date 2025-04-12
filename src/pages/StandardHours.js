@@ -270,17 +270,15 @@ export default function QuanLyGioGiang() {
 
             {/* {selectedKhoa && selectedYear && ( */}
             <>
-
-
-                <TableContainer component={Paper} sx={{ mt: 2 }}>
+                <TableContainer component={Paper} sx={{ mt: 2 }} fullWidth>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Mã Giảng Viên</TableCell>
-                                <TableCell>Tên Giảng Viên</TableCell>
-                                <TableCell>Giờ Dạy</TableCell>
-                                <TableCell>Giờ Khác</TableCell>
-                                <TableCell>Hành Động</TableCell>
+                                <TableCell align="center">Mã Giảng Viên</TableCell>
+                                <TableCell align="center">Tên Giảng Viên</TableCell>
+                                <TableCell align="center">Giờ Dạy</TableCell>
+                                <TableCell align="center">Giờ Khác</TableCell>
+                                <TableCell align="center">Hành Động</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -290,11 +288,11 @@ export default function QuanLyGioGiang() {
 
                                 return (
                                     <TableRow key={gv.maGv}>
-                                        <TableCell>{gv.maGv}</TableCell>
-                                        <TableCell>{gv.tenGv}</TableCell>
-                                        <TableCell>{soTietNam ? soTietNam.soTietDaDay : 0}</TableCell>
-                                        <TableCell>{soTietNam ? soTietNam.soTietHoatDong : 0}</TableCell>
-                                        <TableCell>
+                                        <TableCell align="center">{gv.maGv}</TableCell>
+                                        <TableCell align="center">{gv.tenGv}</TableCell>
+                                        <TableCell align="center">{soTietNam ? soTietNam.soTietDaDay : 0}</TableCell>
+                                        <TableCell align="center">{soTietNam ? soTietNam.soTietHoatDong : 0}</TableCell>
+                                        <TableCell align="center">
                                             <Button
                                                 variant="contained"
                                                 color="primary"

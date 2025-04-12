@@ -16,9 +16,8 @@ import {
     TableHead,
     TableRow,
     Typography,
-    Stack,
     FormControl,
-    InputLabel, Chip,
+    InputLabel, Chip, Container, TableContainer, Paper
 } from '@mui/material';
 
 import { getAllCourses, addCourse, updateCourse, deleteCourse, addClass, updateClass, deleteClass } from '../api/courseApi';
@@ -481,203 +480,118 @@ const CourseManagement = () => {
 
 
     return (
-        <Box p={3}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
-                <Typography variant="h4">Quản lý Khóa học</Typography>
-                <Button variant="contained" onClick={handleOpenAddCourse}>
-                    Thêm Khóa học
-                </Button>
-            </Stack>
-
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Mã Khóa</TableCell>
-                        <TableCell>Tên Khóa</TableCell>
-                        <TableCell>Chương Trình Đào Tạo</TableCell>
-                        <TableCell>Hành Động</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {courses.map((course) => (
-                        <TableRow key={course.maKhoaHoc}>
-                            <TableCell>{course.maKhoaHoc}</TableCell>
-                            <TableCell>{course.tenKhoaHoc}</TableCell>
-                            <TableCell>{course.tenCtdt}</TableCell>
-                            <TableCell>
-                                <Stack direction="row" spacing={1}>
-                                    <Button variant="contained" size="small" onClick={() => {
-                                        setSelectedCourse(course);
-                                        setOpenClassDetail(true);
-                                    }}>Chi tiết lớp học</Button>
-                                    <Button variant="contained" size="small" color="warning" onClick={() => handleOpenEditCourse(course)}>Sửa</Button>
-                                    <Button variant="contained" size="small" color="error" onClick={() => handleOpenDeleteConfirm(course.maKhoaHoc, "course")}>Xóa</Button>
-                                </Stack>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-
-            {
-                selectedCourse && (
-                    <Dialog open={openClassDetail} onClose={() => setOpenClassDetail(false)} fullWidth maxWidth="md">
-                        <DialogTitle>
-                            Danh sách lớp học của khóa: {selectedCourse?.tenKhoaHoc}
-                            <Button
-                                variant="contained"
-                                sx={{ float: 'right' }}
-                                onClick={
-                                    handleOpenAddClass
-                                }
-                            >
-                                Thêm lớp
-                            </Button>
-                        </DialogTitle>
-                        <DialogContent>
-                            <Table>
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Mã lớp</TableCell>
-                                        <TableCell>Tên lớp</TableCell>
-                                        <TableCell>Địa điểm học</TableCell>
-                                        <TableCell>GVCN</TableCell>
-                                        <TableCell>Hành động</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {selectedCourse.lopHocs.map((cls) => (
-                                        <TableRow key={cls.maLop}>
-                                            <TableCell>{cls.maLop}</TableCell>
-                                            <TableCell>{cls.tenLop}</TableCell>
-                                            <TableCell>{cls.diaDiem}</TableCell>
-                                            <TableCell>{cls.tenGv}</TableCell>
-                                            <TableCell>
-                                                <Stack direction="row" spacing={1}>
-                                                    <Button variant="contained" size="small" color='warning' onClick={() => handleOpenEditClass(cls)}>Sửa</Button>
-                                                    <Button variant="contained" size="small" color="error" onClick={() => handleOpenDeleteConfirm(cls.maLop, "class")}>Xóa</Button>
-                                                </Stack>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </DialogContent>
-
-                        <DialogActions>
-                            <Button onClick={() => setOpenClassDetail(false)} color="secondary">Đóng</Button>
-                        </DialogActions>
-                    </Dialog>
-                )
-            }
-
-            <Dialog open={openAddCourse} onClose={handleCloseAddCourse}>
-                <DialogTitle>Thêm khóa học</DialogTitle>
-                <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: "500px" }}>
-                    <TextField
-                        fullWidth
-                        margin="dense"
-                        label="Tên khóa"
-                        value={newCourse.tenKhoaHoc || ""}
-                        onChange={(e) => setNewCourse({ ...newCourse, tenKhoaHoc: e.target.value })}
-                    />
-                    <FormControl fullWidth >
-                        <InputLabel sx={{ background: "white" }}>Chương trình học</InputLabel>
-                        <Select value={newCourse.maCtdt || ""} onChange={(e) => setNewCourse({ ...newCourse, maCtdt: e.target.value })}>
-                            {programs.map((ct) => (
-                                <MenuItem key={ct.maCtdt} value={ct.maCtdt}>{ct.tenCtdt}</MenuItem>
+        <Container sx={{ mt: 4 }}>
+            <Typography variant="h4" gutterBottom >
+                Quản Lý Khóa Học
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
+                {/* <Stack direction="row" justifyContent="space-between" alignItems="center" mb={3}>
+                    <Typography variant="h4">Quản lý Khóa học</Typography>
+                    <Button variant="contained" onClick={handleOpenAddCourse}>
+                        Thêm Khóa học
+                    </Button>
+                </Stack> */}
+                <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", mb: 2 }}>
+                    <Button variant="contained" onClick={handleOpenAddCourse}>
+                        Thêm Khóa học
+                    </Button>
+                </Box>
+                <TableContainer component={Paper} fullWidth>
+                    <Table >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center">Mã Khóa</TableCell>
+                                <TableCell align="center">Tên Khóa</TableCell>
+                                <TableCell align="center">Chương Trình Đào Tạo</TableCell>
+                                <TableCell align="center">Hành Động</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {courses.map((course) => (
+                                <TableRow key={course.maKhoaHoc}>
+                                    <TableCell align="center">{course.maKhoaHoc}</TableCell>
+                                    <TableCell align="center">{course.tenKhoaHoc}</TableCell>
+                                    <TableCell align="center">{course.tenCtdt}</TableCell>
+                                    <TableCell align="center">
+                                        {/* <Stack direction="row" spacing={1}> */}
+                                        <Button variant="contained" sx={{ mx: 1 }} onClick={() => {
+                                            setSelectedCourse(course);
+                                            setOpenClassDetail(true);
+                                        }}>Chi tiết lớp học</Button>
+                                        <Button variant="contained" color="warning" sx={{ mx: 1 }} onClick={() => handleOpenEditCourse(course)}>Sửa</Button>
+                                        <Button variant="contained" color="error" sx={{ mx: 1 }} onClick={() => handleOpenDeleteConfirm(course.maKhoaHoc, "course")}>Xóa</Button>
+                                        {/* </Stack> */}
+                                    </TableCell>
+                                </TableRow>
                             ))}
-                        </Select>
-                    </FormControl>
-                    <TextField
-                        fullWidth
-                        margin="dense"
-                        type="date"
-                        label="Ngày bắt đầu"
-                        InputLabelProps={{ shrink: true }}
-                        value={newCourse.ngayBatDau || ''}
-                        onChange={(e) => setNewCourse({ ...newCourse, ngayBatDau: e.target.value })}
-                    />
-                    <TextField
-                        fullWidth
-                        margin="dense"
-                        type="date"
-                        label="Ngày kết thúc"
-                        InputLabelProps={{ shrink: true }}
-                        value={newCourse.ngayKetThuc || ''}
-                        onChange={(e) => setNewCourse({ ...newCourse, ngayKetThuc: e.target.value })}
-                    />
-
-                    {/* Trường nhập ngày nghỉ sử dụng Select multi */}
-                    <FormControl fullWidth sx={{ mt: 2, mb: 2 }} disabled={!newCourse.ngayBatDau || !newCourse.ngayKetThuc}>
-                        <InputLabel sx={{ background: "white" }}>Ngày nghỉ</InputLabel>
-                        <Select
-                            multiple
-                            value={newCourse.ngayNghi || []}
-                            onChange={handleHolidayChange}
-                            renderValue={(selected) => (
-                                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                                    {selected.map((date) => {
-                                        // const teacher = teachers.find((t) => t.maGv === id);
-                                        return (
-                                            <Chip
-                                                key={date}
-                                                label={formatDate(date)}
-                                                onMouseDown={(e) => e.stopPropagation()}
-                                                onClick={(e) => e.stopPropagation()}
-                                                onDelete={() => {
-                                                    handleDeleteHolidayDate(date)
-                                                }}
-                                                sx={{
-                                                    zIndex: 3000,
-                                                }}
-                                            />
-                                        );
-                                    })}
-                                </Box>
-                            )}
-                            MenuProps={{
-                                // disablePortal: true, // Ngừng mở dropdown khi chọn hoặc xóa
-                                sx: { zIndex: 2000 },
-                                PaperProps: {
-                                    style: {
-                                        maxHeight: 200, // Giới hạn chiều cao của danh sách
-                                        overflowY: 'auto' // Cho phép cuộn khi danh sách quá dài
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                {
+                    selectedCourse && (
+                        <Dialog open={openClassDetail} onClose={() => setOpenClassDetail(false)} fullWidth maxWidth="md">
+                            <DialogTitle>
+                                Danh sách lớp học của khóa: {selectedCourse?.tenKhoaHoc}
+                                <Button
+                                    variant="contained"
+                                    sx={{ float: 'right' }}
+                                    onClick={
+                                        handleOpenAddClass
                                     }
-                                }
-                            }}
-                            disableCloseOnSelect // Prevent closing the dropdown when a chip is deleted
-                        >
-                            {allDates.map((date) => (
-                                <MenuItem key={date} value={date || ''}>
-                                    {formatDate(date)}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                                >
+                                    Thêm lớp
+                                </Button>
+                            </DialogTitle>
+                            <DialogContent>
+                                <Table>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell align="center">Mã lớp</TableCell>
+                                            <TableCell align="center">Tên lớp</TableCell>
+                                            <TableCell align="center">Địa điểm học</TableCell>
+                                            <TableCell align="center">GVCN</TableCell>
+                                            <TableCell align="center">Hành động</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {selectedCourse.lopHocs.map((cls) => (
+                                            <TableRow key={cls.maLop}>
+                                                <TableCell align="center">{cls.maLop}</TableCell>
+                                                <TableCell align="center">{cls.tenLop}</TableCell>
+                                                <TableCell align="center">{cls.diaDiem}</TableCell>
+                                                <TableCell align="center">{cls.tenGv}</TableCell>
+                                                <TableCell align="center">
+                                                    {/* <Stack direction="row" spacing={1}> */}
+                                                    <Button variant="contained" color='warning' sx={{ mx: 1 }} onClick={() => handleOpenEditClass(cls)}>Sửa</Button>
+                                                    <Button variant="contained" color="error" sx={{ mx: 1 }} onClick={() => handleOpenDeleteConfirm(cls.maLop, "class")}>Xóa</Button>
+                                                    {/* </Stack> */}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </DialogContent>
 
+                            <DialogActions>
+                                <Button onClick={() => setOpenClassDetail(false)} color="secondary">Đóng</Button>
+                            </DialogActions>
+                        </Dialog>
+                    )
+                }
 
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseAddCourse} color="secondary">Hủy</Button>
-                    <Button variant="contained" onClick={handleAddCourse}>Thêm</Button>
-                </DialogActions>
-            </Dialog>
-
-            {editCourse && (
-                <Dialog open={openEditCourse} onClose={handleCloseEditCourse}>
-                    <DialogTitle>Sửa khóa học</DialogTitle>
+                <Dialog open={openAddCourse} onClose={handleCloseAddCourse}>
+                    <DialogTitle>Thêm khóa học</DialogTitle>
                     <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: "500px" }}>
                         <TextField
                             fullWidth
                             margin="dense"
                             label="Tên khóa"
-                            value={editCourse.tenKhoaHoc || ""}
-                            onChange={(e) => setEditCourse({ ...editCourse, tenKhoaHoc: e.target.value })}
+                            value={newCourse.tenKhoaHoc || ""}
+                            onChange={(e) => setNewCourse({ ...newCourse, tenKhoaHoc: e.target.value })}
                         />
                         <FormControl fullWidth >
                             <InputLabel sx={{ background: "white" }}>Chương trình học</InputLabel>
-                            <Select value={editCourse.maCtdt || ""} onChange={(e) => setEditCourse({ ...editCourse, maCtdt: e.target.value })}>
+                            <Select value={newCourse.maCtdt || ""} onChange={(e) => setNewCourse({ ...newCourse, maCtdt: e.target.value })}>
                                 {programs.map((ct) => (
                                     <MenuItem key={ct.maCtdt} value={ct.maCtdt}>{ct.tenCtdt}</MenuItem>
                                 ))}
@@ -689,8 +603,8 @@ const CourseManagement = () => {
                             type="date"
                             label="Ngày bắt đầu"
                             InputLabelProps={{ shrink: true }}
-                            value={editCourse.ngayBatDau || ""}
-                            onChange={(e) => setEditCourse({ ...editCourse, ngayBatDau: e.target.value })}
+                            value={newCourse.ngayBatDau || ''}
+                            onChange={(e) => setNewCourse({ ...newCourse, ngayBatDau: e.target.value })}
                         />
                         <TextField
                             fullWidth
@@ -698,16 +612,17 @@ const CourseManagement = () => {
                             type="date"
                             label="Ngày kết thúc"
                             InputLabelProps={{ shrink: true }}
-                            value={editCourse.ngayKetThuc || ""}
-                            onChange={(e) => setEditCourse({ ...editCourse, ngayKetThuc: e.target.value })}
+                            value={newCourse.ngayKetThuc || ''}
+                            onChange={(e) => setNewCourse({ ...newCourse, ngayKetThuc: e.target.value })}
                         />
 
-                        <FormControl fullWidth sx={{ mt: 2, mb: 2 }}>
+                        {/* Trường nhập ngày nghỉ sử dụng Select multi */}
+                        <FormControl fullWidth sx={{ mt: 2, mb: 2 }} disabled={!newCourse.ngayBatDau || !newCourse.ngayKetThuc}>
                             <InputLabel sx={{ background: "white" }}>Ngày nghỉ</InputLabel>
                             <Select
                                 multiple
-                                value={editCourse.ngayNghi || []}
-                                onChange={handleEditHolidayChange}
+                                value={newCourse.ngayNghi || []}
+                                onChange={handleHolidayChange}
                                 renderValue={(selected) => (
                                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                                         {selected.map((date) => {
@@ -719,7 +634,7 @@ const CourseManagement = () => {
                                                     onMouseDown={(e) => e.stopPropagation()}
                                                     onClick={(e) => e.stopPropagation()}
                                                     onDelete={() => {
-                                                        handleDeleteEditHolidayDate(date)
+                                                        handleDeleteHolidayDate(date)
                                                     }}
                                                     sx={{
                                                         zIndex: 3000,
@@ -739,10 +654,10 @@ const CourseManagement = () => {
                                         }
                                     }
                                 }}
-                            // disableCloseOnSelect={true} // Prevent closing the dropdown when a chip is deleted
+                                disableCloseOnSelect // Prevent closing the dropdown when a chip is deleted
                             >
                                 {allDates.map((date) => (
-                                    <MenuItem key={date} value={date || ""}>
+                                    <MenuItem key={date} value={date || ''}>
                                         {formatDate(date)}
                                     </MenuItem>
                                 ))}
@@ -752,149 +667,244 @@ const CourseManagement = () => {
 
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleCloseEditCourse} color="secondary">Hủy</Button>
-                        <Button variant="contained" onClick={handleEditCourse}>Lưu</Button>
+                        <Button onClick={handleCloseAddCourse} color="secondary">Hủy</Button>
+                        <Button variant="contained" onClick={handleAddCourse}>Thêm</Button>
                     </DialogActions>
                 </Dialog>
-            )}
+
+                {editCourse && (
+                    <Dialog open={openEditCourse} onClose={handleCloseEditCourse}>
+                        <DialogTitle>Sửa khóa học</DialogTitle>
+                        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: "500px" }}>
+                            <TextField
+                                fullWidth
+                                margin="dense"
+                                label="Tên khóa"
+                                value={editCourse.tenKhoaHoc || ""}
+                                onChange={(e) => setEditCourse({ ...editCourse, tenKhoaHoc: e.target.value })}
+                            />
+                            <FormControl fullWidth >
+                                <InputLabel sx={{ background: "white" }}>Chương trình học</InputLabel>
+                                <Select value={editCourse.maCtdt || ""} onChange={(e) => setEditCourse({ ...editCourse, maCtdt: e.target.value })}>
+                                    {programs.map((ct) => (
+                                        <MenuItem key={ct.maCtdt} value={ct.maCtdt}>{ct.tenCtdt}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                            <TextField
+                                fullWidth
+                                margin="dense"
+                                type="date"
+                                label="Ngày bắt đầu"
+                                InputLabelProps={{ shrink: true }}
+                                value={editCourse.ngayBatDau || ""}
+                                onChange={(e) => setEditCourse({ ...editCourse, ngayBatDau: e.target.value })}
+                            />
+                            <TextField
+                                fullWidth
+                                margin="dense"
+                                type="date"
+                                label="Ngày kết thúc"
+                                InputLabelProps={{ shrink: true }}
+                                value={editCourse.ngayKetThuc || ""}
+                                onChange={(e) => setEditCourse({ ...editCourse, ngayKetThuc: e.target.value })}
+                            />
+
+                            <FormControl fullWidth sx={{ mt: 2, mb: 2 }}>
+                                <InputLabel sx={{ background: "white" }}>Ngày nghỉ</InputLabel>
+                                <Select
+                                    multiple
+                                    value={editCourse.ngayNghi || []}
+                                    onChange={handleEditHolidayChange}
+                                    renderValue={(selected) => (
+                                        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                                            {selected.map((date) => {
+                                                // const teacher = teachers.find((t) => t.maGv === id);
+                                                return (
+                                                    <Chip
+                                                        key={date}
+                                                        label={formatDate(date)}
+                                                        onMouseDown={(e) => e.stopPropagation()}
+                                                        onClick={(e) => e.stopPropagation()}
+                                                        onDelete={() => {
+                                                            handleDeleteEditHolidayDate(date)
+                                                        }}
+                                                        sx={{
+                                                            zIndex: 3000,
+                                                        }}
+                                                    />
+                                                );
+                                            })}
+                                        </Box>
+                                    )}
+                                    MenuProps={{
+                                        // disablePortal: true, // Ngừng mở dropdown khi chọn hoặc xóa
+                                        sx: { zIndex: 2000 },
+                                        PaperProps: {
+                                            style: {
+                                                maxHeight: 200, // Giới hạn chiều cao của danh sách
+                                                overflowY: 'auto' // Cho phép cuộn khi danh sách quá dài
+                                            }
+                                        }
+                                    }}
+                                // disableCloseOnSelect={true} // Prevent closing the dropdown when a chip is deleted
+                                >
+                                    {allDates.map((date) => (
+                                        <MenuItem key={date} value={date || ""}>
+                                            {formatDate(date)}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
 
 
-            {deleteType && (
-                <Dialog open={openDeleteConfirm} onClose={handleCloseDeleteConfirm}>
-                    <DialogTitle>Xác nhận xóa</DialogTitle>
-                    <DialogContent>
-                        <Typography>
-                            {deleteType === "course"
-                                ? "Bạn có chắc chắn muốn xóa chương trình đào tạo này?"
-                                : deleteType === "class"
-                                    ? "Bạn có chắc chắn muốn xóa lớp này?"
-                                    : "Bạn có chắc chắn muốn xóa mục này?"}
-                        </Typography>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCloseDeleteConfirm} color="secondary">
-                            Hủy
-                        </Button>
-                        <Button onClick={handleDelete} variant="contained" color="error">
-                            Xóa
-                        </Button>
-                    </DialogActions>
-                </Dialog>
-            )
-            }
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseEditCourse} color="secondary">Hủy</Button>
+                            <Button variant="contained" onClick={handleEditCourse}>Lưu</Button>
+                        </DialogActions>
+                    </Dialog>
+                )}
 
 
-            <Dialog open={openAddClass} onClose={handleCloseAddCourse}>
-                <DialogTitle>Thêm lớp học</DialogTitle>
-                <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: "500px" }}>
-                    <TextField
-                        fullWidth
-                        margin="dense"
-                        label="Tên lớp"
-                        value={newClass.tenLop || ""}
-                        onChange={(e) => setNewClass({ ...newClass, tenLop: e.target.value })}
-                    />
-
-                    <TextField
-                        fullWidth
-                        margin="dense"
-                        label="Địa điểm học"
-                        value={newClass.diaDiem || ""}
-                        onChange={(e) => setNewClass({ ...newClass, diaDiem: e.target.value })}
-                    />
-
-                    <FormControl fullWidth >
-                        <InputLabel sx={{ background: "white" }}>GVCN</InputLabel>
-                        <Select value={newClass.maGv || ""} onChange={(e) => setNewClass({ ...newClass, maGv: e.target.value })}>
-                            {teachers.map((gv) => (
-                                <MenuItem key={gv.maGv} value={gv.maGv}>{gv.tenGv}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                {deleteType && (
+                    <Dialog open={openDeleteConfirm} onClose={handleCloseDeleteConfirm}>
+                        <DialogTitle>Xác nhận xóa</DialogTitle>
+                        <DialogContent>
+                            <Typography>
+                                {deleteType === "course"
+                                    ? "Bạn có chắc chắn muốn xóa chương trình đào tạo này?"
+                                    : deleteType === "class"
+                                        ? "Bạn có chắc chắn muốn xóa lớp này?"
+                                        : "Bạn có chắc chắn muốn xóa mục này?"}
+                            </Typography>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseDeleteConfirm} color="secondary">
+                                Hủy
+                            </Button>
+                            <Button onClick={handleDelete} variant="contained" color="error">
+                                Xóa
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                )
+                }
 
 
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseAddClass} color="secondary">Hủy</Button>
-                    <Button variant="contained" onClick={handleAddClass}>Thêm</Button>
-                </DialogActions>
-            </Dialog>
-
-
-            <Dialog open={openAddClass} onClose={handleCloseAddClass}>
-                <DialogTitle>Thêm lớp học</DialogTitle>
-                <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: "500px" }}>
-                    <TextField
-                        fullWidth
-                        margin="dense"
-                        label="Tên lớp"
-                        value={newClass.tenLop || ""}
-                        onChange={(e) => setNewClass({ ...newClass, tenLop: e.target.value })}
-                    />
-
-                    <TextField
-                        fullWidth
-                        margin="dense"
-                        label="Địa điểm học"
-                        value={newClass.diaDiem || ""}
-                        onChange={(e) => setNewClass({ ...newClass, diaDiem: e.target.value })}
-                    />
-
-                    <FormControl fullWidth >
-                        <InputLabel sx={{ background: "white" }}>GVCN</InputLabel>
-                        <Select value={newClass.maGv || ""} onChange={(e) => setNewClass({ ...newClass, maGv: e.target.value })}>
-                            {teachers.map((gv) => (
-                                <MenuItem key={gv.maGv} value={gv.maGv}>{gv.tenGv}</MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-
-
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseAddClass} color="secondary">Hủy</Button>
-                    <Button variant="contained" onClick={handleAddClass}>Thêm</Button>
-                </DialogActions>
-            </Dialog>
-
-
-            {editClass && (
-                <Dialog open={openEditClass} onClose={handleCloseEditClass}>
-                    <DialogTitle>Sửa lớp học</DialogTitle>
+                <Dialog open={openAddClass} onClose={handleCloseAddCourse}>
+                    <DialogTitle>Thêm lớp học</DialogTitle>
                     <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: "500px" }}>
                         <TextField
                             fullWidth
                             margin="dense"
                             label="Tên lớp"
-                            value={editClass.tenLop || ""}
-                            onChange={(e) => setEditClass({ ...editClass, tenLop: e.target.value })}
+                            value={newClass.tenLop || ""}
+                            onChange={(e) => setNewClass({ ...newClass, tenLop: e.target.value })}
                         />
 
                         <TextField
                             fullWidth
                             margin="dense"
                             label="Địa điểm học"
-                            value={editClass.diaDiem || ""}
-                            onChange={(e) => setEditClass({ ...editClass, diaDiem: e.target.value })}
+                            value={newClass.diaDiem || ""}
+                            onChange={(e) => setNewClass({ ...newClass, diaDiem: e.target.value })}
                         />
 
                         <FormControl fullWidth >
                             <InputLabel sx={{ background: "white" }}>GVCN</InputLabel>
-                            <Select value={editClass.maGv || ""} onChange={(e) => setEditClass({ ...editClass, maGv: e.target.value })}>
+                            <Select value={newClass.maGv || ""} onChange={(e) => setNewClass({ ...newClass, maGv: e.target.value })}>
                                 {teachers.map((gv) => (
                                     <MenuItem key={gv.maGv} value={gv.maGv}>{gv.tenGv}</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
 
+
                     </DialogContent>
                     <DialogActions>
-                        <Button onClick={handleCloseEditClass} color="secondary">Hủy</Button>
-                        <Button variant="contained" onClick={handleEditClass}>Lưu</Button>
+                        <Button onClick={handleCloseAddClass} color="secondary">Hủy</Button>
+                        <Button variant="contained" onClick={handleAddClass}>Thêm</Button>
                     </DialogActions>
                 </Dialog>
-            )}
-        </Box >
+
+
+                <Dialog open={openAddClass} onClose={handleCloseAddClass}>
+                    <DialogTitle>Thêm lớp học</DialogTitle>
+                    <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: "500px" }}>
+                        <TextField
+                            fullWidth
+                            margin="dense"
+                            label="Tên lớp"
+                            value={newClass.tenLop || ""}
+                            onChange={(e) => setNewClass({ ...newClass, tenLop: e.target.value })}
+                        />
+
+                        <TextField
+                            fullWidth
+                            margin="dense"
+                            label="Địa điểm học"
+                            value={newClass.diaDiem || ""}
+                            onChange={(e) => setNewClass({ ...newClass, diaDiem: e.target.value })}
+                        />
+
+                        <FormControl fullWidth >
+                            <InputLabel sx={{ background: "white" }}>GVCN</InputLabel>
+                            <Select value={newClass.maGv || ""} onChange={(e) => setNewClass({ ...newClass, maGv: e.target.value })}>
+                                {teachers.map((gv) => (
+                                    <MenuItem key={gv.maGv} value={gv.maGv}>{gv.tenGv}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+
+
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseAddClass} color="secondary">Hủy</Button>
+                        <Button variant="contained" onClick={handleAddClass}>Thêm</Button>
+                    </DialogActions>
+                </Dialog>
+
+
+                {editClass && (
+                    <Dialog open={openEditClass} onClose={handleCloseEditClass}>
+                        <DialogTitle>Sửa lớp học</DialogTitle>
+                        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: "500px" }}>
+                            <TextField
+                                fullWidth
+                                margin="dense"
+                                label="Tên lớp"
+                                value={editClass.tenLop || ""}
+                                onChange={(e) => setEditClass({ ...editClass, tenLop: e.target.value })}
+                            />
+
+                            <TextField
+                                fullWidth
+                                margin="dense"
+                                label="Địa điểm học"
+                                value={editClass.diaDiem || ""}
+                                onChange={(e) => setEditClass({ ...editClass, diaDiem: e.target.value })}
+                            />
+
+                            <FormControl fullWidth >
+                                <InputLabel sx={{ background: "white" }}>GVCN</InputLabel>
+                                <Select value={editClass.maGv || ""} onChange={(e) => setEditClass({ ...editClass, maGv: e.target.value })}>
+                                    {teachers.map((gv) => (
+                                        <MenuItem key={gv.maGv} value={gv.maGv}>{gv.tenGv}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleCloseEditClass} color="secondary">Hủy</Button>
+                            <Button variant="contained" onClick={handleEditClass}>Lưu</Button>
+                        </DialogActions>
+                    </Dialog>
+                )}
+            </Box >
+        </Container>
+
     );
 };
 
