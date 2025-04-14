@@ -298,6 +298,15 @@ const DepartmentManagement = () => {
     }
 
 
+    const getChucVuList = (loaiDonVi) => {
+        if (loaiDonVi === "phong") return ["Trưởng phòng", "Phó trưởng phòng", "Giảng viên"];
+        if (loaiDonVi === "bgh") return ["Hiệu trưởng", "Phó Hiệu trưởng"];
+        return ["Trưởng khoa", "Phó trưởng khoa", "Giảng viên"];
+    };
+
+    const chucVuList = getChucVuList(selectedDepartment?.loaiDonVi);
+
+
     return (
         <Container sx={{ mt: 4 }}>
             <Typography variant="h4" gutterBottom >
@@ -499,7 +508,7 @@ const DepartmentManagement = () => {
                             onChange={(e) => setNewTeacher({ ...newTeacher, tenGv: e.target.value })}
                         />
 
-                        <FormControl fullWidth>
+                        {/* <FormControl fullWidth>
                             <InputLabel sx={{ background: "white" }}>Chức vụ</InputLabel>
                             <Select
                                 value={newTeacher.chucVu || ""}
@@ -510,9 +519,22 @@ const DepartmentManagement = () => {
                                     ["Trưởng khoa", "Phó trưởng khoa", "Giảng viên"]
                                 ).map((chucVu) => (
                                     <MenuItem key={chucVu} value={chucVu}>{chucVu}</MenuItem>
+                                ))} 
+                            </Select>
+                        </FormControl> */}
+
+                        <FormControl fullWidth>
+                            <InputLabel sx={{ background: "white" }}>Chức vụ</InputLabel>
+                            <Select
+                                value={newTeacher.chucVu || ""}
+                                onChange={(e) => setNewTeacher({ ...newTeacher, chucVu: e.target.value })}
+                            >
+                                {chucVuList.map((chucVu) => (
+                                    <MenuItem key={chucVu} value={chucVu}>{chucVu}</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
+
 
                         <FormControl fullWidth>
                             <InputLabel sx={{ background: "white" }}>Chức danh</InputLabel>
@@ -548,13 +570,24 @@ const DepartmentManagement = () => {
                                 onChange={(e) => setEditTeacher({ ...editTeacher, tenGv: e.target.value })}
                             />
 
-                            <FormControl fullWidth >
+                            {/* <FormControl fullWidth >
                                 <InputLabel sx={{ background: "white" }}>Chức vụ</InputLabel>
                                 <Select value={editTeacher.chucVu || ""} onChange={(e) => setEditTeacher({ ...editTeacher, chucVu: e.target.value })}>
                                     {(selectedDepartment?.loaiDonVi === "phong" ?
                                         ["Trưởng phòng", "Phó trưởng phòng", "Giảng viên"] :
                                         ["Trưởng khoa", "Phó trưởng khoa", "Giảng viên"]
                                     ).map((chucVu) => (
+                                        <MenuItem key={chucVu} value={chucVu}>{chucVu}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl> */}
+                            <FormControl fullWidth>
+                                <InputLabel sx={{ background: "white" }}>Chức vụ</InputLabel>
+                                <Select
+                                    value={editTeacher.chucVu || ""}
+                                    onChange={(e) => setEditTeacher({ ...editTeacher, chucVu: e.target.value })}
+                                >
+                                    {chucVuList.map((chucVu) => (
                                         <MenuItem key={chucVu} value={chucVu}>{chucVu}</MenuItem>
                                     ))}
                                 </Select>
