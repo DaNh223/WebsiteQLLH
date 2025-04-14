@@ -54,6 +54,7 @@ import ProtectedRoute from './components/ProtectedRoute'; // Import ProtectedRou
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import OrganizationManagement from './pages/DepartmentManagement';
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/time" element={<QuanLyGioGiang />} />
           <Route path="/course" element={<CourseManagement />} />
+          <Route path="/org" element={<OrganizationManagement />} />
         </Route>
       </Routes>
     </Router>

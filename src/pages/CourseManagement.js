@@ -792,43 +792,6 @@ const CourseManagement = () => {
                 }
 
 
-                <Dialog open={openAddClass} onClose={handleCloseAddCourse}>
-                    <DialogTitle>Thêm lớp học</DialogTitle>
-                    <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: "500px" }}>
-                        <TextField
-                            fullWidth
-                            margin="dense"
-                            label="Tên lớp"
-                            value={newClass.tenLop || ""}
-                            onChange={(e) => setNewClass({ ...newClass, tenLop: e.target.value })}
-                        />
-
-                        <TextField
-                            fullWidth
-                            margin="dense"
-                            label="Địa điểm học"
-                            value={newClass.diaDiem || ""}
-                            onChange={(e) => setNewClass({ ...newClass, diaDiem: e.target.value })}
-                        />
-
-                        <FormControl fullWidth >
-                            <InputLabel sx={{ background: "white" }}>GVCN</InputLabel>
-                            <Select value={newClass.maGv || ""} onChange={(e) => setNewClass({ ...newClass, maGv: e.target.value })}>
-                                {teachers.map((gv) => (
-                                    <MenuItem key={gv.maGv} value={gv.maGv}>{gv.tenGv}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-
-
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleCloseAddClass} color="secondary">Hủy</Button>
-                        <Button variant="contained" onClick={handleAddClass}>Thêm</Button>
-                    </DialogActions>
-                </Dialog>
-
-
                 <Dialog open={openAddClass} onClose={handleCloseAddClass}>
                     <DialogTitle>Thêm lớp học</DialogTitle>
                     <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, minWidth: "500px" }}>
@@ -864,7 +827,6 @@ const CourseManagement = () => {
                         <Button variant="contained" onClick={handleAddClass}>Thêm</Button>
                     </DialogActions>
                 </Dialog>
-
 
                 {editClass && (
                     <Dialog open={openEditClass} onClose={handleCloseEditClass}>

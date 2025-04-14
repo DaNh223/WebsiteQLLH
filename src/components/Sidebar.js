@@ -5,12 +5,12 @@ import {
 } from "@mui/material";
 import {
     Menu as MenuIcon, CalendarMonth as ScheduleIcon, ChevronLeft as ChevronLeftIcon,
-    AccessTime as AccessTimeIcon, Topic, Ballot, ExitToApp
+    AccessTime as AccessTimeIcon, Topic, Ballot, ExitToApp, Groups
 } from "@mui/icons-material";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 
-const drawerWidth = 240;
+const drawerWidth = 270;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(({ theme, open }) => ({
     flexGrow: 1,
@@ -18,7 +18,7 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(({
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: open ? `${drawerWidth}px` : "-110px",
+    marginLeft: open ? `${drawerWidth}px` : "60px",
     padding: theme.spacing(3),
 }));
 
@@ -47,6 +47,7 @@ export default function SidebarLayout() {
     const menuItems = [
         { text: "Quản lý CTDT", icon: <Topic />, path: "/" },
         { text: "Quản lý khóa học", icon: <Ballot />, path: "/course" },
+        { text: "Quản lý tổ chức & nhân sự", icon: <Groups />, path: "/org" },
         { text: "Quản lý lịch dạy", icon: <ScheduleIcon />, path: "/schedule" },
         { text: "Quản lý giờ chuẩn", icon: <AccessTimeIcon />, path: "/time" },
     ];
